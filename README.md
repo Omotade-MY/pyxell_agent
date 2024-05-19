@@ -32,3 +32,8 @@ the meeting link. The agent should acknowledge tasks with responses like "OK, it
 The agent should control the browser, not the entire PC or mobile device.
 
 4. A simple Ul that we can integrate into Pyxell.ai
+
+
+#### PYXELL AGENT ARCHITECTURE
+
+![PYXELL AGENT](pyxell_agent_architecture.svg)
