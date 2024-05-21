@@ -2,7 +2,21 @@ import bcrypt
 import jwt
 from datetime import datetime, timedelta
 from fastapi import FastAPI, HTTPException, Depends, Header
+from utils.db_utils import get_user
 
+#from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+#from fastapi import Depends, HTTPException, APIRouter
+#from authentication.schemas import User, Bool, Token
+#from typing import Annotated
+
+
+#URL_PREFIX = "/auth"
+
+#router =  APIRouter(prefix = URL_PREFIX)
+
+#oauth2_scheme= OAuth2PasswordBearer(tokenUrl="/auth/token")
+
+#@router.post("/token")
 
 def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()
@@ -32,3 +46,10 @@ def verify_token(token: str):
         raise HTTPException(status_code=401, detail="Token has expired")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+def authorize_user(username, password):
+    user = get_user(username)
+    if user and verify_password(password, user.password):
+        return user
+    else:
+        return False

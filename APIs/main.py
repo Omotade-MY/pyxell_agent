@@ -1,22 +1,23 @@
 
 from typing import Annotated
-from authentication.auth import hash_password, verify_password, create_access_token, verify_token
+from authentication.auth import authorize_user, hash_password, create_access_token, verify_token
 from fastapi import FastAPI, HTTPException, Depends, Header
-from fastapi.security import HTTPBasic, HTTPBasicCredentials, OAuth2PasswordBearer
-from authentication.schemas import User, Bool
-
-from utils.db_utils import init_db, get_user, add_new_user, update_session
+from fastapi.security import HTTPBasic, HTTPBasicCredentials, OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from authentication.schemas import User, Bool, Token
+from typing import Annotated
+from utils.db_utils import init_db, get_user, add_new_user
 
 security = HTTPBasic()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
 
 app = FastAPI(title="PyxellAI")
+app.include_router
 
-async def get_current_user(user: Annotated[str, Depends(security)]):
+async def get_current_user(token: Annotated[Token, Depends(oauth2_scheme)]):
 
-    #print("Got here!!!", token)
-    #payload = verify_token(token)
-    return user
+    print("Got here!!!", type(token))
+    payload = verify_token(token)
+    return payload
 
 @app.post("/register")
 async def register_user(username, password, confirm_password):
@@ -33,19 +34,23 @@ async def register_user(username, password, confirm_password):
 
 
 
-@app.post("/login/")
-async def login(credentials: HTTPBasicCredentials = Depends(security)):
+@app.post("/login", response_model=Token)
+async def login(credentials: Annotated[OAuth2PasswordRequestForm,  Depends()]):
+    print("called")
     user = get_user(credentials.username)
-    if user and verify_password(credentials.password, user.password):
+    #if user and verify_password(credentials.password, user.password):
+    if user:
+        authorize_user(credentials.username, credentials.password)
         token_data = {"sub": user.username}
         access_token = create_access_token(data=token_data)
-        update_session(user.userid, login_token=access_token)
-        return {"access_token": access_token, "token_type": "bearer"}
+        #update_session(login_token=access_token)
+        
+        return {"token": access_token, "token_type": "bearer"}
     
     else:
         raise HTTPException(status_code=401, detail="Invalid username or password")
     
 
 @app.post("/users/me")
-async def query(current_user: Annotated[User,  Depends(get_current_user)]):
-    return {'response':f"Hello {current_user.username} is Logged In"}
+async def query(user: Annotated[User,  Depends(get_current_user)]):
+    return {'response':f"Hello {user.username} is Logged In"}

@@ -1,6 +1,8 @@
 from authentication.schemas import *
-from authentication.auth import hash_password, verify_token, verify_password
-from fastapi import FastAPI, HTTPException, Depends, Header
+
+#from database import engine, SessionLocal
+#import models
+from sqlalchemy.orm import Session
 import os
 
 
@@ -52,14 +54,21 @@ def update_session(userid, login_token):
         print("User DB",user_db)
         json.dump(user_db, fp, indent=4)
 
-def get_token(user):
-    user = get_user((user.username))
-    if user and verify_password(user.password, user.password):
-        userid = user.userid
-        with open('database/user_db.json', "r") as fp:
-            user_db = json.load(fp)
-            sessions = user_db['sessions']
-            token = [tok['token'] for tok in sessions if tok['userid']==userid][0]
-        return token
-
+#def get_token(user):
+#    user = get_user((user.username))
+#    if user and verify_password(user.password, user.password):
+#        userid = user.userid
+#        with open('database/user_db.json', "r") as fp:
+#            user_db = json.load(fp)
+#            sessions = user_db['sessions']
+#            token = [tok['token'] for tok in sessions if tok['userid']==userid][0]
+#        return token
+    
+#models.meta
+#def get_db():
+#    db = SessionLocal()
+#    try:
+#        yield db
+#    finally:
+#        db.close()
 

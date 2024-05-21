@@ -9,6 +9,9 @@ class User(BaseModel):
 class Session(BaseModel):
     userid: str
     token: str
+class Token(BaseModel):
+    token: str
+    token_type: str
 
 class Bool(BaseModel):
     response: bool
