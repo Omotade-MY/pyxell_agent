@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pyxell-agent"
+version = "0.1"
+description = "Agent 2.0"
+authors = ["okoliechykwuka <forbeseuroupe@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<=3.13"
+crewai = "^0.30.11"
+python-dotenv = "^1.0.1"
+embedchain = "^0.1.103"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

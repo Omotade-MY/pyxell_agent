@@ -36,4 +36,21 @@ The agent should control the browser, not the entire PC or mobile device.
 
 #### PYXELL AGENT ARCHITECTURE
 
-![PYXELL AGENT](pyxell_agent_architecture.svg)
+![PYXELL AGENT](image/pyxell_agent_architecture.svg)
+
+### Installing Dependencies
+
+```
+poetry lock
+poetry install
+
+```
+
+
+### Virtual Env
+
+```
+poetry shell
+
+```
+
