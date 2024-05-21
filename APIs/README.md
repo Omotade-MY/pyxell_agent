@@ -5,6 +5,10 @@ It should be note that the API server is built using FastAPI as such requires a 
 pip install -r requirements.txt
 ```
 
+```bash
+uvicorn main:app --reload
+```
+
 ## Making API calls
 #### Sign up a new User
 
