@@ -3,7 +3,11 @@
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Button from './components/Button';
+import Spinner from './components/Spinner';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import AlertUser, { AlertUserType } from './components/Alert';
+
 
 interface Credential {
     username: string;
@@ -12,15 +16,23 @@ interface Credential {
 }
 
 const Page = () => {
+    const router = useRouter();
+
     const [formData, setFormData] = useState<Credential>({
         username: '',
         password: '',
         confirmPassword: '',
     });
 
+
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [errors, setErrors] = useState<Partial<Credential>>({});
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<AlertUserType>({
+        color: 'red',
+        message: '',
+    });
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
@@ -52,22 +64,27 @@ const Page = () => {
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (validateForm()) {
+
+
             try {
-                // Dummy API request
-                const response = await fetch('/api/register', {
+                setLoading(true);
+                const response = await fetch(`http://127.0.0.1:8000/register/?username=${formData.username}&password=${formData.password}&confirm_password=${formData.confirmPassword}`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
                 });
 
                 if (response.ok) {
-                    alert('Registration successful!');
+                    setLoading(false);
+                    setAlert({ color: 'green', message: 'Registration successful!' });
+                    router.push('/login');
+                    response.json().then(data => console.log(data))
                 } else {
-                    alert('Registration failed. Please try again.');
+                    setLoading(false);
+                    setAlert({ color: 'red', message: 'Registration failed. Please try again.' });
+                    response.json().then(data => console.log(data))
                 }
             } catch (error) {
+                setLoading(false);
+                setAlert({ color: 'red', message: 'Registration failed. Please try again.' });
                 console.error('Error:', error);
             }
         }
@@ -75,7 +92,8 @@ const Page = () => {
 
     return (
         <div className="bg-gradient-to-br from-purple-700 to-pink-500 min-h-screen flex flex-col justify-center items-center">
-            <div className="bg-white rounded-lg shadow-lg p-8 sm:w-[500px] sm:py-12 max-w-md">
+            <AlertUser color={alert.color} message={alert.message} />
+            <div className="bg-white rounded-lg shadow-lg w-[80%] p-8 sm:w-[500px] sm:py-12 max-w-md">
                 <h1 className="text-4xl font-bold text-center text-purple-700 mb-8">Pyxell AI</h1>
                 <form className="space-y-6">
                     <div>
@@ -131,7 +149,7 @@ const Page = () => {
                     </div>
 
                     <div>
-                        <Button type='submit' name="Register" handleSubmit={handleSubmit} />
+                        <Button type='submit' value={!loading ? 'Register' : <Spinner />} handleSubmit={handleSubmit} />
                     </div>
                 </form>
                 <p className="mt-8 text-center">Have an account? <Link className="font-bold" href="/login">Sign in</Link></p>
