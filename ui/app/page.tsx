@@ -6,7 +6,8 @@ import Button from './components/Button';
 import Spinner from './components/Spinner';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import AlertUser, { AlertUserType } from './components/Alert';
+import { useAppDispatch } from '@/lib/hooks';
+import { showAlert } from '@/lib/alertSlice';
 
 
 interface Credential {
@@ -17,6 +18,7 @@ interface Credential {
 
 const Page = () => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const [formData, setFormData] = useState<Credential>({
         username: '',
@@ -29,10 +31,7 @@ const Page = () => {
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [errors, setErrors] = useState<Partial<Credential>>({});
     const [loading, setLoading] = useState(false);
-    const [alert, setAlert] = useState<AlertUserType>({
-        color: 'red',
-        message: '',
-    });
+
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
@@ -74,17 +73,17 @@ const Page = () => {
 
                 if (response.ok) {
                     setLoading(false);
-                    setAlert({ color: 'green', message: 'Registration successful!' });
+                    dispatch(showAlert({ color: 'green', message: 'Registration successful!' }));
                     router.push('/login');
                     response.json().then(data => console.log(data))
                 } else {
                     setLoading(false);
-                    setAlert({ color: 'red', message: 'Registration failed. Please try again.' });
+                    dispatch(showAlert({ color: 'red', message: 'Registration failed. Please try again.' }));
                     response.json().then(data => console.log(data))
                 }
             } catch (error) {
                 setLoading(false);
-                setAlert({ color: 'red', message: 'Registration failed. Please try again.' });
+                dispatch(showAlert({ color: 'red', message: 'Registration failed. Please try again.' }));
                 console.error('Error:', error);
             }
         }
@@ -92,7 +91,6 @@ const Page = () => {
 
     return (
         <div className="bg-gradient-to-br from-purple-700 to-pink-500 min-h-screen flex flex-col justify-center items-center">
-            <AlertUser color={alert.color} message={alert.message} />
             <div className="bg-white rounded-lg shadow-lg w-[80%] p-8 sm:w-[500px] sm:py-12 max-w-md">
                 <h1 className="text-4xl font-bold text-center text-purple-700 mb-8">Pyxell AI</h1>
                 <form className="space-y-6">

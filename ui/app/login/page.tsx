@@ -5,6 +5,8 @@ import Button from '../components/Button'
 import Spinner from '../components/Spinner';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/lib/hooks';
+import { showAlert } from '@/lib/alertSlice';
 
 
 
@@ -14,6 +16,8 @@ interface Credential {
 }
 
 const Page = () => {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
     const [formData, setFormData] = useState<Credential>({
         username: '',
         password: '',
@@ -63,7 +67,8 @@ const Page = () => {
 
                 if (response.ok) {
                     setLoading(false);
-                    alert('Login successful!');
+                    dispatch(showAlert({ color: 'green', message: 'Login successful!' }));
+                    router.push('/chat')
                     response.json().then(data => {
                         console.log(data)
                         localStorage.setItem('token', data.token)
@@ -72,11 +77,12 @@ const Page = () => {
                     )
                 } else {
                     setLoading(false);
-                    alert('Login failed. Please try again.');
+                    dispatch(showAlert({ color: 'red', message: 'Login failed. Please try again.' }));
                     response.json().then(data => console.log(data))
                 }
             } catch (error) {
                 setLoading(false);
+                dispatch(showAlert({ color: 'red', message: 'Login failed. Please try again.' }));
                 console.error('Error:', error);
             }
         }
