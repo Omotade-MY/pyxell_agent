@@ -1,17 +1,28 @@
-### Installing Dependencies
+### Installing Oython Dependencies
 
-```
+1. create a python virtual environment using conda or virtuenv 
+2. cd into `agent` directory and Install poetry 
+ -  `pip install poetry` 
+
+```bash
 poetry lock
 poetry install
-
 ```
 
+#### Virtual Env
 
-### Virtual Env
-
-```
+```bash
 poetry shell
-
 ```
 
-praisonai --init create a Develop an Al-powered agent that can automate tasks on various websites through a simple web app interface. Here's a breakdown of the requirements:The agent should be capable of performing tasks on any website, not just pre-programmed ones.An example task is creating a Zoom account, scheduling a meeting, and providing the meeting link. The agent should acknowledge tasks with responses like "OK, it is done.
+
+#### To test the browser_agent
+
+1. Install npm and node
+2. Install packages in package.json `npm install`
+3. navigate to browser_agent and test the agent.
+   - cd to browser agent directory
+   - create  a .env file and place your openai apikey in the .env file.
+   - run `node web_agent.js ` to interact with the agent.
+
+

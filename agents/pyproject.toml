@@ -9,7 +9,7 @@ readme = "README.md"
 python = ">=3.10,<3.13"
 crewai = "^0.30.11"
 python-dotenv = "^1.0.1"
-praisonai = "^0.0.21"
+openai = "^1.30.2"
 
 
 
