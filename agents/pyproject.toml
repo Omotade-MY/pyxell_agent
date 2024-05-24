@@ -6,10 +6,10 @@ authors = ["okoliechykwuka <forbeseuroupe@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<=3.13"
+python = ">=3.10,<3.13"
 crewai = "^0.30.11"
 python-dotenv = "^1.0.1"
-embedchain = "^0.1.103"
+praisonai = "^0.0.21"
 
 
 
