@@ -82,5 +82,5 @@ def visionCrawl(url, prompt):
     else:
         return visionExtract(b64_image, prompt)
 
-response = visionCrawl("https://relevanceai.com/pricing", "Extract the pricing info")
+response = visionCrawl("https://relevanceai.com/pricing/", "Extract the pricing info")
 print(response)
