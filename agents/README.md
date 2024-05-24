@@ -1,56 +1,28 @@
-# pyxell_agent
+### Installing Oython Dependencies
 
+1. create a python virtual environment using conda or virtuenv 
+2. cd into `agent` directory and Install poetry 
+ -  `pip install poetry` 
 
-Develop an Al-powered agent that can automate tasks on various websites through a simple web app interface. Here's a breakdown of the requirements:
-
-1. **Basic Functionality**:
-
-**Simple Interface**: The app should have a straightforward interface.
-
-**Sections**
-
-- **Save Credentials**: A section for saving login credentials.
-
-**Document Management**: A section for managing documents.
-
-- **History Section**: A section to track task history.
-
-2. **Task Automation**:
-
-The agent should be capable of performing tasks on any website, not just pre-programmed ones.
-
-An example task is creating a Zoom
-
-account, scheduling a meeting, and providing
-
-the meeting link. The agent should acknowledge tasks with responses like "OK, it is done."
-
-3. **Technical Implementation**:
-
-- Use the GPT-4 API for task automation.
-
-The agent should control the browser, not the entire PC or mobile device.
-
-4. A simple Ul that we can integrate into Pyxell.ai
-
-
-#### PYXELL AGENT ARCHITECTURE
-
-![PYXELL AGENT](image/pyxell_agent_architecture.svg)
-
-### Installing Dependencies
-
-```
+```bash
 poetry lock
 poetry install
-
 ```
 
+#### Virtual Env
 
-### Virtual Env
-
-```
+```bash
 poetry shell
-
 ```
+
+
+#### To test the browser_agent
+
+1. Install npm and node
+2. Install packages in package.json `npm install`
+3. navigate to browser_agent and test the agent.
+   - cd to browser agent directory
+   - create  a .env file and place your openai apikey in the .env file.
+   - run `node web_agent.js ` to interact with the agent.
+
 

@@ -26,7 +26,6 @@ Pipfile
 Pipfile.lock
 
 # Poetry
-poetry.lock
 .cache/
 __pypackages__/
 

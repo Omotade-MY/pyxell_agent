@@ -12,35 +12,32 @@ uvicorn main:app --reload
 ## Making API calls
 #### Sign up a new User
 
-**Bash**\
-```bash
-curl -X 'POST' \
-  'http://127.0.0.1:8000/register?username={yourUserName}&password={password}&confirm_password={password}' \
-  -H 'accept: application/json' \
-  -d ''
-```
-
 **Javascript**\
 In JavaScript, you can use the fetch API to make an HTTP POST request. Here’s an example:
 
 ```javascript
-const url = 'http://127.0.0.1:8000/register';
-const data = {
-    username: '{yourUserName}',
-    password: '{password}',
-    confirm_password: '{password}'
-};
+async function registerUser() {
+    const url = 'http://127.0.0.1:8000/register';
+    const data = new URLSearchParams({
+        username: 'yourUserName',
+        password: 'salam',
+        confirm_password: 'salam'
+    });
 
-const headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-};
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data
+    });
 
-fetch(url, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
-});
+    const result = await response.json();
+    console.log(response.status, result);
+}
+
+registerUser();
+
 ```
 
 **Python** \
@@ -49,27 +46,22 @@ in Python using the requests library.
 ```python
 import requests
 
+import requests
+
 url = 'http://127.0.0.1:8000/register'
 data = {
-    'username': '{yourUserName}',
-    'password': '{password}',
-    'confirm_password': '{password}'
+    'username': 'Your Username',
+    'password': 'salam',
+    'confirm_password': 'salam'
 }
-headers = {'accept': 'application/json'}
-response = requests.post(url, json=data, headers=headers)
-print(response.status_code)
+
+response = requests.post(url, data=data)
+print(response.status_code, response.json())
+
 ```
 
 
 #### Sign in for existing User
-**Bash**
-```bash
-curl -X 'POST' \
-  'http://127.0.0.1:8000/login' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'grant_type=&username={yourUserName}&password={password}&scope=&client_id=&client_secret='
-  ```
 
 **Python**\
 ```python
@@ -77,49 +69,40 @@ import requests
 
 url = 'http://127.0.0.1:8000/login'
 data = {
-    'grant_type': '',
-    'username': 'yourUserName',
-    'password': '{password}',
-    'scope': '',
-    'client_id': '',
-    'client_secret': ''
+    'username': 'your User name',
+    'password': 'salam'
 }
 
-headers = {
-    'accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded'
-}
-
-response = requests.post(url, data=data, headers=headers)
-
-print(response.status_code)
-print(response.json())  # Assuming the response is in JSON format
+response = requests.post(url, data=data)
+print(response.status_code, response.json())
+token = response.json().get('token')
 
 ```
 
-
-**Javascript**\
 ```javascript
-const url = 'http://127.0.0.1:8000/login';
-const data = new URLSearchParams({
-    'grant_type': '',
-    'username': 'yourUserName',
-    'password': '{password}',
-    'scope': '',
-    'client_id': '',
-    'client_secret': ''
-});
 
-const headers = {
-    'accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded'
-};
+async function loginUser() {
+    const url = 'http://127.0.0.1:8000/login';
+    const data = new URLSearchParams({
+        username: 'Your User Name',
+        password: 'salam'
+    });
 
-fetch(url, {
-    method: 'POST',
-    headers: headers,
-    body: data
-});
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data
+    });
+
+    const result = await response.json();
+    console.log(response.status, result);
+    return result.token;
+}
+
+loginUser().then(token => console.log(token));
 ```
+
 
 
