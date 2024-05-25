@@ -7,7 +7,11 @@ require('dotenv/config');
 
 puppeteer.use(StealthPlugin());
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+
+    apiKey: process.env.OPENAI_API_KEY,  // Make sure your .env file contains the OPENAI_API_KEY
+
+});
 const timeout = 8000;
 
 async function image_to_base64(image_file) {
@@ -223,10 +227,12 @@ async function waitForEvent(page, event) {
         }
 
         const response = await openai.chat.completions.create({
-            model: "gpt-4-vision-preview",
+            model: "gpt-4-1106-vision-preview",
             max_tokens: 1024,
             messages: messages,
         });
+        // console.log(messages);
+        // console.log("----------------------------------------------------------------------------");
 
         const message = response.choices[0].message;
         const message_text = message.content;

@@ -38,7 +38,7 @@ def url2screenshot(url):
 
 def visionExtract(b64_image, prompt):
     response = model.chat.completions.create(
-        model="gpt-4-vision-preview",
+        model="gpt-4-1106-vision-preview",
         messages=[
             {
                 "role": "system",
