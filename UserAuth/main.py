@@ -3,6 +3,7 @@ from typing import Annotated
 from authentication.auth import authorize_user, hash_password, create_access_token, verify_token
 from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.security import HTTPBasic, HTTPBasicCredentials, OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 from authentication.schemas import User, Bool, Token
 from typing import Annotated
 from utils.db_utils import init_db, get_user, add_new_user
@@ -12,6 +13,19 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
 
 app = FastAPI(title="PyxellAI")
 app.include_router
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # List of allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],  # You can specify allowed methods like ["GET", "POST"]
+    allow_headers=["*"],  # You can specify allowed headers like ["Content-Type", "Authorization"]
+)
 
 async def get_current_user(token: Annotated[Token, Depends(oauth2_scheme)]):
 

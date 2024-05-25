@@ -1,0 +1,77 @@
+{
+    "users": [
+        {
+            "userid": "user00",
+            "username": "wasedokaxy",
+            "password": "$2b$12$3Q9PEIEeG.bCUXHBQRlE5e9XFAolhCJHhXRWuLdFuGI8PcOSy0jHS",
+            "session_token": null
+        },
+        {
+            "userid": "user01",
+            "username": "vycexuv",
+            "password": "$2b$12$7gh.6hIBqPr1gk.Mx0z/sOc0PKG1e6snBKZ55fUzpK.RAmagaRMka",
+            "session_token": null
+        },
+        {
+            "userid": "user02",
+            "username": "xyjocyx",
+            "password": "$2b$12$mMoSkjD1aZxCAnxpQvDlceC5nZsBLwcYS4.GaglBZLKBW/kygsPj6",
+            "session_token": null
+        },
+        {
+            "userid": "user03",
+            "username": "pirodykeji",
+            "password": "$2b$12$N17ycABW64.HIqewRqsr..MdW7ydI1vv2ZRiE9O7qVHRwUTyIpG96",
+            "session_token": null
+        },
+        {
+            "userid": "user04",
+            "username": "dejyqeno",
+            "password": "$2b$12$.Wtb9ZubRh7RAU3xJfAEDOnr9/NOsZvpRKCbNF7rSL9ESmefbOMpq",
+            "session_token": null
+        },
+        {
+            "userid": "user05",
+            "username": "raxym",
+            "password": "$2b$12$dux9MsQFxWN86k/5jzaI0uiPYXm12u0f.yfZq8/Zr1hP9GbQVRcaa",
+            "session_token": null
+        },
+        {
+            "userid": "user06",
+            "username": "tazelysa",
+            "password": "$2b$12$8oVnPNKydKUvHhZizfiZ0u/a1esxWMGSxYRMEgsOx6IDTeXJyfNQS",
+            "session_token": null
+        },
+        {
+            "userid": "user07",
+            "username": "qelenuwyco",
+            "password": "$2b$12$qdmh4ad.FVJxs5wkCjr.TuoTB/Ja61vBzITBCS05JG7ESCzhcyBBS",
+            "session_token": null
+        },
+        {
+            "userid": "user08",
+            "username": "husuxuhi",
+            "password": "$2b$12$ZIJ.ot1PaXvTqDH2h184aufsoUY.HWzST0V/m4S1Krl8JZf1j904.",
+            "session_token": null
+        },
+        {
+            "userid": "user09",
+            "username": "hababi",
+            "password": "$2b$12$jyzGn7hM0brlGbwKxZr8FuJjcRcg8s.FoyemaN4ZRieJLq61I3Qb6",
+            "session_token": null
+        },
+        {
+            "userid": "user010",
+            "username": "jixoteryg",
+            "password": "$2b$12$Nm.WmXKmqt1ovcEdjiO4UuDPWiTdN9ryY74rwtsisshu4voC0iukm",
+            "session_token": null
+        },
+        {
+            "userid": "user011",
+            "username": "fyvibumo",
+            "password": "$2b$12$zZBq6.FWHsHBpPV3W0JA9ui/CJ39H2W8zLDgbb4MV./ZtSdnzuVoO",
+            "session_token": null
+        }
+    ],
+    "sessions": []
+}
