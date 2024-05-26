@@ -18,11 +18,8 @@ poetry shell
 
 #### To test the browser_agent
 
-1. Install npm and node
-2. Install packages in package.json `npm install`
-3. navigate to browser_agent and test the agent.
-   - cd to browser agent directory
-   - create  a .env file and place your openai apikey in the .env file.
-   - run `node web_agent.js ` to interact with the agent.
+1. create an instance of the class  `BrowserAgent`
+2. call the `.execute` method and pass in your text e.g **Go to any football platform and get me the last english premiership scores.**
+3. The final from the should be a list of string.
 
 
