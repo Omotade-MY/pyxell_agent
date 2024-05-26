@@ -7,11 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
-crewai = "^0.30.11"
 python-dotenv = "^1.0.1"
 openai = "^1.30.2"
 selenium = "^4.21.0"
 lavague = "^1.0.23.post2"
+langchainhub = "^0.1.16"
+langchain-openai = "^0.1.7"
 
 
 
