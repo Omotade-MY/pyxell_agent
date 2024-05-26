@@ -1,22 +1,22 @@
-from authentication.schemas import *
+from server.authentication.schemas import *
 
 #from database import engine, SessionLocal
 #import models
 from sqlalchemy.orm import Session
 import os
 
-
+root = "/Users/myakub/Documents/test/pyxell_agent/server/"
 
 def init_db():
     try:
-        os.mkdir('database/')
+        os.mkdir(root+'database/')
     except FileExistsError:
         pass
     try:
-        fp = open("database/user_db.json")
+        fp = open(root+"database/user_db.json")
         fp.close()
     except FileNotFoundError:
-        fp = open("database/user_db.json", "w")
+        fp = open(root+"database/user_db.json", "w")
         users = dict(users=[], sessions=[])
         json.dump(users, fp, indent=4)
         fp.close()
@@ -26,7 +26,7 @@ import json
 
 def add_new_user(username, password):
     
-    with open('database/user_db.json', 'r+') as fp:
+    with open(root+'database/user_db.json', 'r+') as fp:
         data = json.load(fp)
         userid = f"user0{len(data['users'])}"
         user = User(userid=userid,username=username.lower(), password=password, session_token=None)
@@ -36,7 +36,7 @@ def add_new_user(username, password):
 
 
 def get_user(username):
-    with open('database/user_db.json', "r") as f:
+    with open(root+'database/user_db.json', "r") as f:
         user_db = json.load(f)
         try:
             user = [user for user in user_db['users'] if user["username"] == username][0]
@@ -45,7 +45,7 @@ def get_user(username):
             return None
         
 def update_session(userid, login_token):
-    with open('database/user_db.json', "r+") as fp:
+    with open(root+'database/user_db.json', "r+") as fp:
         user_db = json.load(fp)
         session = Session(userid=userid, token=login_token)
         
@@ -53,22 +53,3 @@ def update_session(userid, login_token):
         fp.seek(0)
         print("User DB",user_db)
         json.dump(user_db, fp, indent=4)
-
-#def get_token(user):
-#    user = get_user((user.username))
-#    if user and verify_password(user.password, user.password):
-#        userid = user.userid
-#        with open('database/user_db.json', "r") as fp:
-#            user_db = json.load(fp)
-#            sessions = user_db['sessions']
-#            token = [tok['token'] for tok in sessions if tok['userid']==userid][0]
-#        return token
-    
-#models.meta
-#def get_db():
-#    db = SessionLocal()
-#    try:
-#        yield db
-#    finally:
-#        db.close()
-

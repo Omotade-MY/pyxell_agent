@@ -1,18 +1,30 @@
 
 from typing import Annotated
-from authentication.auth import authorize_user, hash_password, create_access_token, verify_token
-from fastapi import FastAPI, HTTPException, Depends, Header
+from server.authentication.auth import authorize_user, hash_password, create_access_token, verify_token
+from fastapi import FastAPI, HTTPException, Depends, Form
 from fastapi.security import HTTPBasic, HTTPBasicCredentials, OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
-from authentication.schemas import User, Bool, Token
+from server.authentication.schemas import User, Bool, Token
 from typing import Annotated
-from utils.db_utils import init_db, get_user, add_new_user
+from server.utils.db_utils import init_db, get_user, add_new_user
+from functools import cache
+
+@cache
+def create_agent():
+    import openai
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+    from agents.browser_agent import web_agent as wgt
+    bagent = wgt.BrowserAgent()
+    return bagent
+bagent = create_agent()
 
 security = HTTPBasic()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
 
 app = FastAPI(title="PyxellAI")
-app.include_router
 
 origins = [
     "http://localhost",
@@ -34,17 +46,17 @@ async def get_current_user(token: Annotated[Token, Depends(oauth2_scheme)]):
     return payload
 
 @app.post("/register")
-async def register_user(username, password, confirm_password):
+async def register_user(username: str = Form(...), password: str = Form(...), confirm_password: str = Form(...)):
     init_db()
     user = get_user(username)
     if user:
         raise HTTPException(status_code=400, detail="User already exists")
     else:
-        try:
-            assert password == confirm_password
-            add_new_user(username, hash_password(password))
-        except AssertionError:
-            raise HTTPException(status_code=400, detail="password and confirm password do not match")
+        if password != confirm_password:
+            raise HTTPException(status_code=400, detail="Passwords do not match")
+        add_new_user(username, hash_password(password))
+    return {"detail": "User registered successfully"}
+
 
 
 
@@ -57,14 +69,20 @@ async def login(credentials: Annotated[OAuth2PasswordRequestForm,  Depends()]):
         authorize_user(credentials.username, credentials.password)
         token_data = {"sub": user.username}
         access_token = create_access_token(data=token_data)
-        #update_session(login_token=access_token)
         
         return {"token": access_token, "token_type": "bearer"}
     
     else:
         raise HTTPException(status_code=401, detail="Invalid username or password")
     
+@app.post("/chat/")
+async def get_response(user: Annotated[User,  Depends(get_current_user)], prompt: str = Form(...), ):
+    print("Entering Web Agent Execution")
+    response = bagent.execute(prompt)
+    #return {'response':f"Hello Welcome to PyxellAI! How can I help you.\n\n We got the below message <{prompt}>"}
+    return {'response': response}
 
 @app.post("/users/me")
 async def query(user: Annotated[User,  Depends(get_current_user)]):
-    return {'response':f"Hello {user.username} is Logged In"}
+    
+    return {'response':f"Hello {user['sub']} is Logged In"}

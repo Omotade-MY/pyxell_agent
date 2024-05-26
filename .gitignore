@@ -116,4 +116,8 @@ cython_debug/
 # VS Code settings
 .vscode/
 
+UserAuth/database/
+
+test.ipynb
+test.py
 # End of examples
