@@ -6,20 +6,20 @@ from lavague.drivers.selenium import SeleniumDriver
 from lavague.core import PythonEngine
 from lavague.core import WorldModel
 from lavague.core.agents import WebAgent
-from langchain_openai import OpenAI
+from langchain_openai import OpenAI, ChatOpenAI
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain.output_parsers import OutputFixingParser
 import logging
 # Configure the logging
-logging.basicConfig(level=logging.DEBUG,  # Set the logging level
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Define the log format
-                    handlers=[
-                        logging.FileHandler("agent.log"),  # Log to a file
-                        logging.StreamHandler()  # Also log to console
-                    ])
-logger = logging.getLogger(__name__)
+# logging.basicConfig(level=logging.DEBUG,  # Set the logging level
+#                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Define the log format
+#                     handlers=[
+#                         logging.FileHandler("agent.log"),  # Log to a file
+#                         logging.StreamHandler()  # Also log to console
+#                     ])
+# logger = logging.getLogger(__name__)
 _ = load_dotenv(find_dotenv())
 # Load OpenAI API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -31,7 +31,7 @@ class LavagueInput(BaseModel):
 
 class BrowserAgent:
     
-    selenium_driver = SeleniumDriver(headless=True)
+    selenium_driver = SeleniumDriver(headless=False)
     action_engine = ActionEngine(selenium_driver)
     python_engine = PythonEngine()
     world_model = WorldModel()
@@ -79,7 +79,7 @@ class BrowserAgent:
             Expected Output:
             {{
                 "url": "https://huggingface.co/login",
-                "modified_task": "Navigate to Hugging Face and log in with my credentials. Go to my profile and get the name of the latest model I uploaded."
+                "task": "Navigate to Hugging Face and log in with my credentials. Go to my profile and get the name of the latest model I uploaded."
             }}
         User Prompt:
         "Go to Zoom and create an account for me."
@@ -87,7 +87,7 @@ class BrowserAgent:
             Expected Output:
             {{
                 "url": "https://zoom.us/",
-                "modified_task": "Go to Zoom, navigate to the Sign-Up page, and create an account for me."
+                "task": "Go to Zoom, navigate to the Sign-Up page, and create an account for me."
             }}
 
 
@@ -99,7 +99,7 @@ class BrowserAgent:
 
         ENSURE THAT YOU ADHERE TO ```EXPECTED OUTPUT FORMAT```  AND URL MUST BE ACCURATE. 
 
-        LASTLY ENSURE THE OUTPUT KEYS ARE **url** and **modified_task**. RETURN ONLY THE JSONOUTPU AND NOTHING MORE
+        LASTLY ENSURE THE OUTPUT KEYS ARE **url** and **task**. RETURN ONLY THE JSONOUTPU AND NOTHING MORE
 
 
         """),
@@ -107,11 +107,12 @@ class BrowserAgent:
         input_variables=["task"],
         )
         # Choose the LLM to use
-        llm = OpenAI()
+        llm = ChatOpenAI(model="gpt-4o")
         new_parser = OutputFixingParser.from_llm(parser=parser, llm=llm)
 
         chain = query | llm | new_parser
         response = chain.invoke({"task": task}) 
+        print(response)
         
         return response
 
@@ -132,7 +133,17 @@ class BrowserAgent:
         
         agent = WebAgent(self.world_model, self.action_engine, self.python_engine)
         agent.get(modified_user_task["url"])
-        output = agent.run(modified_user_task["modified_task"])
+        output = agent.run(modified_user_task["task"])
         
         return output
+    
+
+
+if __name__ == "__main__":
+    #task_1 worked
+    task_1 = "Go on Hugging Face platform, log in with my credentials username:chukypedro15@gmail.com and password:k2%H_h5E@pK7Kgf, and navigate to my profile to get the name of the latest model I uploaded."
+    #task_2 worked
+    task_2 = "https://relevanceai.com/pricing/", "Extract the pricing info"
+    agent = BrowserAgent()
+    output = agent.execute(task=task_2)
         
