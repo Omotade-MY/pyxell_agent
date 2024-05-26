@@ -19,7 +19,7 @@ poetry shell
 #### To test the browser_agent
 
 1. create an instance of the class  `BrowserAgent`
-2. call the `.execute` method and pass in your text e.g **Go to any football platform and get me the last english premiership scores.**
+2. call the `.execute` method and pass in your text e.g **Go to any football platform and get me the latest english premiership result.**
 3. The final from the should be a list of string.
 
 

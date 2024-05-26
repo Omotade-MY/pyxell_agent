@@ -47,7 +47,7 @@ class BrowserAgent:
             dict: The generated prompt in the format specified.
 
         Example:
-            >>> generate_prompt("Go to any football platform and get me the last english premiership scores.")
+            >>> generate_prompt("Go to any football platform and get me the latest english premiership result.")
             {
                 "url": "https://huggingface.co/login",
                 "modified_user_task_prompt": "Navigate to Hugging Face and log in with my credentials. Go to my profile and get the name of the latest model I uploaded."
