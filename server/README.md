@@ -105,4 +105,34 @@ loginUser().then(token => console.log(token));
 ```
 
 
+## Sending Request to chat endpoint
+```javascript
+const token = 'oken_here';  // Replace with the actual token obtained from login
+const prompt = "Extract the prices of all commodities on the africaexchange website";
+const url = "http://127.0.0.1:8000/chat/";
+
+const data = new URLSearchParams({
+  'prompt': prompt
+});
+
+fetch(url, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: data
+})
+.then(response => {
+  console.log('Status:', response.status);
+  return response.json();
+})
+.then(data => {
+  console.log('Response:', data);
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+```
+
 
