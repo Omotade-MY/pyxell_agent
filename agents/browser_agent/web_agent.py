@@ -31,7 +31,7 @@ class LavagueInput(BaseModel):
 
 class BrowserAgent:
     
-    selenium_driver = SeleniumDriver(headless=False)
+    selenium_driver = SeleniumDriver(headless=True)
     action_engine = ActionEngine(selenium_driver)
     python_engine = PythonEngine()
     world_model = WorldModel()
@@ -154,6 +154,6 @@ if __name__ == "__main__":
     task_1 = "Go on Hugging Face platform, log in with my credentials username:chukypedro15@gmail.com and password:k2%H_h5E@pK7Kgf, and navigate to my profile to get the name of the latest model I uploaded."
     #task_2 worked
     task_2 = "https://relevanceai.com/pricing/", "Extract the pricing info"
-    agent = BrowserAgent()
-    output = agent.execute(task=task_2)
+    #agent = BrowserAgent()
+    #output = agent.execute(task=task_2)
         
