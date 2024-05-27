@@ -19,7 +19,6 @@ def create_agent():
     from agents.browser_agent import web_agent as wgt
     bagent = wgt.BrowserAgent()
     return bagent
-bagent = create_agent()
 
 security = HTTPBasic()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
@@ -76,7 +75,7 @@ async def login(credentials: Annotated[OAuth2PasswordRequestForm,  Depends()]):
         raise HTTPException(status_code=401, detail="Invalid username or password")
     
 @app.post("/chat/")
-async def get_response(user: Annotated[User,  Depends(get_current_user)], prompt: str = Form(...), ):
+async def get_response(user: Annotated[User,  Depends(get_current_user)], bagent = Depends(create_agent), prompt: str = Form(...)):
     print("Entering Web Agent Execution")
     response = bagent.execute(prompt)
     #return {'response':f"Hello Welcome to PyxellAI! How can I help you.\n\n We got the below message <{prompt}>"}

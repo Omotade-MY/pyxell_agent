@@ -59,32 +59,22 @@ class BrowserAgent:
         parser = JsonOutputParser(pydantic_object=LavagueInput)
 
         query = PromptTemplate(template = dedent("""  
-        You are an excellent assistant. You have provided with a prompt for the user.
-        Your task:
-        - Understand the request of the user
-        - Generate a breakdown and step by step instruction on how to execute the task.
-        - Provide relevant information needed such as links to a website, details to fill a form
-        - You output should adhere strictly to this format
-                                        
+        You are provided with the user task prompt, and your output should be a modified breakdown of the user task prompt.
+        Your output should be in this format and modified user task prompt.
 
-        You should answer these thought questions:
-        1. Does this the task require Login?
-        2. Has the user provided Login Credentials?
-        3. Does the task require other information and has the user provided them?
 
-        ** Follow these guidelines based on the user's request**:
-        - If the task requires logging into a website then you should provide the relavant website and link. The user must provide you with login details.
-        - For data extraction from a website: Provide the correct URL and a detailed data extraction prompt. You can aswell scrape the page screenshots 
+        1. Follow these guidelines based on the user's request:
+        - For account creation: Provide steps and site links.
+        - For data extraction from a website: Provide the URL and a detailed data extraction prompt.
         - For retrieving information from a profile (e.g., latest model on Hugging Face): Provide the URL and a step-by-step breakdown.
-        
+        - For other platform data requests (e.g., stock prices from Yahoo Finance): Log in if necessary, navigate to the relevant section, and extract the specified information. Provide the URL and a detailed breakdown.
 
-        Your task is to give a detailed step by step process to accomplish the task.
 
 
         Example Prompts and ```EXPECTED OUTPUT FORMAT```:
 
         User Prompt:
-        " What is the latest model I uploaded? You have my login  credentials username:{{to be provided by user}} and password:{{should be provided by user}}"
+        "Go on Hugging Face platform, log in with my credentials username:chukypedro15@gmail.com and password:k2%H_h5E@pK7Kgf, and navigate to my profile to get the name of the latest model I uploaded."
 
             Expected Output:
             {{
@@ -92,12 +82,12 @@ class BrowserAgent:
                 "task": "Navigate to Hugging Face and log in with my credentials. Go to my profile and get the name of the latest model I uploaded."
             }}
         User Prompt:
-        "Schedule a zoom meeting for me today (26th May 2024) by 5pm. Here are my login details\n email:myemail@example.com \npassword:MySecurePass"
+        "Go to Zoom and create an account for me."
 
             Expected Output:
             {{
                 "url": "https://zoom.us/",
-                "task": "Go to Zoom, navigate to the Login page, and create an account for me."
+                "task": "Go to Zoom, navigate to the Sign-Up page, and create an account for me."
             }}
 
 

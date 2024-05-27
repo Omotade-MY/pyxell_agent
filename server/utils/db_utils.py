@@ -5,7 +5,8 @@ from server.authentication.schemas import *
 from sqlalchemy.orm import Session
 import os
 
-root = "/Users/myakub/Documents/test/pyxell_agent/server/"
+root = os.path.join(os.getcwd(),'server/')
+print(root)
 
 def init_db():
     try:

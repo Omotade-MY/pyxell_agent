@@ -71,6 +71,12 @@
             "username": "fyvibumo",
             "password": "$2b$12$zZBq6.FWHsHBpPV3W0JA9ui/CJ39H2W8zLDgbb4MV./ZtSdnzuVoO",
             "session_token": null
+        },
+        {
+            "userid": "user012",
+            "username": "omotade",
+            "password": "$2b$12$HDTwMzvUPMdpEZhY2zzGH.JJLcaRi4iY2x8u6WJI4HRjdIUSn77Om",
+            "session_token": null
         }
     ],
     "sessions": []

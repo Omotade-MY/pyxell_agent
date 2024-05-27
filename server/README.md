@@ -46,8 +46,6 @@ in Python using the requests library.
 ```python
 import requests
 
-import requests
-
 url = 'http://127.0.0.1:8000/register'
 data = {
     'username': 'Your Username',
